@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,10 +10,16 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> names;
     private Queue<AudioClip> sounds;
     private Queue<bool> hasSound;
+    private Queue<bool> hasImage;
+    private Queue<Sprite> portraits;
     //UI
     public CanvasGroup group;
     public Text nameText;
     public Text sentenceText;
+    public UnityEngine.UI.Image characterPortrait;
+
+    //Images
+    public List<Sprite> allPortraits;
 
     //NPC stuff
     private AudioSource aSource;
@@ -24,12 +29,31 @@ public class DialogueManager : MonoBehaviour
         names = new Queue<string>();
         hasSound = new Queue<bool>();
         sounds = new Queue<AudioClip>();
+        hasImage = new Queue<bool>();
+        portraits = new Queue<Sprite>();
         aSource = GetComponent<AudioSource>();
     }
+
+    //searches for the correct image
+    private Sprite FindSprite(string name)
+    {
+        foreach (Sprite sprite in allPortraits)
+        {
+            if (sprite.name.Equals(name))
+            {
+                return sprite;
+            }
+        }
+        Debug.Log("Couldn't find sprite with the name: " + name);
+        return null;
+    }
+
 
     //makes the canvas appear and starts the text | no known bugs
     public void StartDialogue(Dialogue[] array)
     {
+        GetComponent<CanvasGroup>().alpha = 1.0f;
+        Time.timeScale = 0;
         LoadDialogue(array);
         DisplayNextSentence();
     }
@@ -49,10 +73,19 @@ public class DialogueManager : MonoBehaviour
         names.Clear();
         hasSound.Clear();
         sounds.Clear();
+        hasImage.Clear();
+        portraits.Clear();
         foreach (Dialogue dialogue in array)
         {
             sentences.Enqueue(dialogue.sentence);
             names.Enqueue(dialogue.name);
+            hasImage.Enqueue(dialogue.hasImage);
+            //checking if it has image
+            if (dialogue.hasImage)
+            {
+                portraits.Enqueue(FindSprite(dialogue.imageName));
+            }
+           //checking if it has sound
             if (!dialogue.sound.Equals(null))
             {
                 hasSound.Enqueue(true);
@@ -81,6 +114,10 @@ public class DialogueManager : MonoBehaviour
             aSource.clip = sounds.Dequeue();
             aSource.Play();
         }
+        if (hasImage.Dequeue())
+        {
+            characterPortrait.sprite = portraits.Dequeue();
+        }
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentences.Dequeue()));
         
@@ -100,6 +137,7 @@ public class DialogueManager : MonoBehaviour
     //ends displaying of dialogue | no known bugs
     private void EndDialogue()
     {
-        //we can put something here later
+        GetComponent<CanvasGroup>().alpha = 0.0f;
+        Time.timeScale = 1;
     }
 }

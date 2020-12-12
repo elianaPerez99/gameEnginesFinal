@@ -12,4 +12,8 @@ public class Dialogue
     public string sentence;
     [SerializeField]
     public AudioClip sound;
+    [SerializeField]
+    public bool hasImage;
+    [SerializeField]
+    public string imageName;
 }
