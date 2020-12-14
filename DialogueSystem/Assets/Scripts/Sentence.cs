@@ -7,7 +7,7 @@ public class Sentence : ScriptableObject
     public Dialogue dialogue;
 
     [Tooltip("Available only when Sentence has no options")]
-    public Sentence nextSentence;
+    public Sentence nextSentence = null;
 
     public List<Choice> options = new List<Choice>();
 

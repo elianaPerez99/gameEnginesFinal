@@ -8,14 +8,11 @@ public class NPC : MonoBehaviour
 {
     //dialogue stuff
     [SerializeField]
-    private Dialogue[] dialogues;
-
-    [SerializeField]
     private Sentence sentence;
 
-    /*triggers the dialogue to start | when you play the dialogue a second time, it skips the first sentence*/
+    //triggers the dialogue to start
     public void TriggerDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogues);
+        FindObjectOfType<DialogueManager>().StartDialogue(sentence);
     }
 }
