@@ -475,6 +475,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8475146951096190301, guid: 1e1ea2e8fd5a9a24687f8d07fe85d10e, type: 3}
+      propertyPath: dialogues.Array.data[2].imageName
+      value: finalportraits_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475146951096190301, guid: 1e1ea2e8fd5a9a24687f8d07fe85d10e, type: 3}
+      propertyPath: sentence
+      value: 
+      objectReference: {fileID: 11400000, guid: f66d129b6b30cf24ca523f52bc80dff3, type: 2}
     - target: {fileID: 8475146952173286123, guid: 1e1ea2e8fd5a9a24687f8d07fe85d10e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

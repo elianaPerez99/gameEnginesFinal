@@ -10,6 +10,9 @@ public class NPC : MonoBehaviour
     [SerializeField]
     private Dialogue[] dialogues;
 
+    [SerializeField]
+    private Sentence sentence;
+
     /*triggers the dialogue to start | when you play the dialogue a second time, it skips the first sentence*/
     public void TriggerDialogue()
     {
