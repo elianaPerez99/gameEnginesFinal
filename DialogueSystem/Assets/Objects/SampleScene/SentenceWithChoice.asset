@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dcef9864a4b31e48bd1653761896495, type: 3}
-  m_Name: Sentence1
+  m_Name: SentenceWithChoice
   m_EditorClassIdentifier: 
   dialogue:
     name: Bunny
-    sentence: Hello. I am talking to you.
+    sentence: Do you like Pancakes or Waffles?
     sound: {fileID: 8300000, guid: ccfdf345ebfad0447a357d5bed8762bc, type: 3}
     hasImage: 1
     imageName: finalportraits_2
-  nextSentence: {fileID: 11400000, guid: 12d85566e7926314d8c794e53048d71f, type: 2}
-  options: []
+  nextSentence: {fileID: 0}
+  options:
+  - text: Pancakes
+    nextSentence: {fileID: 11400000, guid: ae490180ec387064f8ea82954eea4eaa, type: 2}
+  - text: Waffles
+    nextSentence: {fileID: 11400000, guid: 2478f6a8a245f8f429ba8228b74f47b4, type: 2}

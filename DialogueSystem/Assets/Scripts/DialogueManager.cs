@@ -10,6 +10,7 @@ public class DialogueManager : MonoBehaviour
 
     //UI
     public CanvasGroup group;
+    public CanvasGroup ChoiceCanvas;
     public Text nameText;
     public Text sentenceText;
     public Image characterPortrait;
@@ -19,9 +20,17 @@ public class DialogueManager : MonoBehaviour
 
     //NPC stuff
     private AudioSource aSource;
+    public Button[] choiceButtons;
+
     private void Awake()
     {
         aSource = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        ChoiceCanvas.alpha = 0f;
+        ChoiceCanvas.blocksRaycasts = false;
     }
 
     //Searches for the correct image
@@ -49,14 +58,16 @@ public class DialogueManager : MonoBehaviour
     }
 
     private void Update()
-    {
+    {       
         if (group.alpha == 1 && Input.GetMouseButtonDown(0))
         {
+            if (currentSentence != null && currentSentence.HasOptions()) return;
+
             DisplayNextSentence();
         }
     }
 
-  
+
 
     //Displays the next sentence | no known bugs
     private void DisplayNextSentence()
@@ -66,7 +77,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-        
+
         aSource.Stop();
         nameText.text = currentSentence.dialogue.name;
 
@@ -83,7 +94,12 @@ public class DialogueManager : MonoBehaviour
 
         StopAllCoroutines();
         StartCoroutine(TypeSentence(currentSentence.dialogue.sentence));
-        currentSentence = currentSentence.nextSentence;
+
+
+        if (!currentSentence.HasOptions())
+            currentSentence = currentSentence.nextSentence;
+        else
+            DisplayChoices();
     }
 
     // have the letters in the sentence appear on the screen one by one | no known bugs
@@ -102,5 +118,41 @@ public class DialogueManager : MonoBehaviour
     {
         GetComponent<CanvasGroup>().alpha = 0.0f;
         Time.timeScale = 1;
+    }
+
+    private void DisplayChoices()
+    {
+        ChoiceCanvas.alpha = 1f;
+        ChoiceCanvas.blocksRaycasts = true;
+
+        if (currentSentence.options.Count <= choiceButtons.Length)
+        {
+            for (int i = 0; i < currentSentence.options.Count; i++)
+            {
+                choiceButtons[i].transform.GetChild(0).GetComponent<Text>().text = currentSentence.options[i].text;
+                choiceButtons[i].gameObject.SetActive(true);
+            }
+        }
+
+    }
+
+    private void HideChoices()
+    {
+        foreach (Button b in choiceButtons)
+        {
+            b.gameObject.SetActive(false);
+        }
+
+        ChoiceCanvas.alpha = 0f;
+        ChoiceCanvas.blocksRaycasts = false;
+
+    }
+
+    public void OnClickChoice(int index)
+    {
+        HideChoices();
+
+        currentSentence = currentSentence.options[index].nextSentence;
+        DisplayNextSentence();
     }
 }
