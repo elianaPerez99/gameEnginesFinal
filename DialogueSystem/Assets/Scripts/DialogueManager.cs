@@ -34,6 +34,13 @@ public class DialogueManager : MonoBehaviour
     [Tooltip("Set font fot text")]
     [SerializeField] private Font dialogueFont;
 
+    [Tooltip("Set font style fot text")]
+    [SerializeField] private FontStyle dialogueFontStyle;
+
+
+    [Tooltip("Set text anchor")]
+    [SerializeField] private TextAnchor dialogueTextAllignment;
+
     [Tooltip("Set size for text")]
     [SerializeField] private int dialogueTextSize;
 
@@ -44,7 +51,7 @@ public class DialogueManager : MonoBehaviour
 
     // Button that contimues dialogue
     [Tooltip("Set custom Key to continue through the dailogue")]
-    [SerializeField] private KeyCode dialogueButton;
+    [SerializeField] private KeyCode continueDialogueButton;
 
     [Tooltip("Set character portrait")]
     [SerializeField] private Image characterPortrait;
@@ -97,7 +104,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (group.alpha == 1 && Input.GetKeyDown(dialogueButton))
+        if (group.alpha == 1 && Input.GetKeyDown(continueDialogueButton))
         {
             if (currentSentence != null && currentSentence.HasOptions()) return;
 
@@ -161,9 +168,12 @@ public class DialogueManager : MonoBehaviour
     }
     private void CustomText(Text text)
     {
+        // Sets text
         text.color = dialogueColor;
         text.font = dialogueFont;
         text.fontSize = dialogueTextSize;
+        text.fontStyle = dialogueFontStyle;
+        text.alignment = dialogueTextAllignment;
     }
 
     private void DisplayChoices()
