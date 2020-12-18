@@ -17,6 +17,6 @@ MonoBehaviour:
     sentence: I like Pancakes!
     sound: {fileID: 8300000, guid: 30288601a9272cb48b2063dd58443572, type: 3}
     hasImage: 1
-    imageName: finalportraits_3
+    imageName: finalportraits_1
   nextSentence: {fileID: 0}
   options: []
